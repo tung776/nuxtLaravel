@@ -1,6 +1,6 @@
 # NuxtLaravel
 
-> nuxt and laravel
+> My breathtaking Nuxt.js project
 
 ## Build Setup
 
