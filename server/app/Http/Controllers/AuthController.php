@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 // use Illuminate\Http\Request;
 use App\User;
 use App\Http\Requests\UserRegisterRequest;
+use App\Http\Resources\User as UserResource;
 
 class AuthController extends Controller
 {
     public function register(UserRegisterRequest $request)
     {
-        dd('go here');
+        // dd('go here');
 
         $user = User::create([
             'email' => $request->email,
@@ -18,6 +19,6 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        return $user;
+        return new UserResource($user);
     }
 }
