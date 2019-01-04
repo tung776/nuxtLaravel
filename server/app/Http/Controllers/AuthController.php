@@ -59,6 +59,7 @@ class AuthController extends Controller
                 ]
             ]);
         }
+        dd($user);
         return new UserResource($user);
     }
 
