@@ -25,11 +25,20 @@
       <ul class="navbar-nav ml-auto">
         <nuxt-link to="/login" class="nav-item nav-link my-2">Đăng Nhập</nuxt-link>
         <nuxt-link to="/register" class="nav-item nav-link my-2">Đăng Ký</nuxt-link>
+        {{authenticated}}
       </ul>
     </nav>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+
+export default {
+  // computed: {
+  //   ...mapGetters({
+  //     authenticated: "auth/authenticated"
+  //   })
+  // }
+};
 </script>

@@ -2,15 +2,16 @@
   <div class="container col-md-6 mt-5">
     <h2>Đăng Ký</h2>
     <br>
-    <form>
+    <form @submit.prevent="submit">
       <div class="form-group">
         <label>Tên của bạn</label>
-        <input type="text" class="form-control" placeholder="Điền tên của bạn">
+        <input v-model="form.name" type="text" class="form-control" placeholder="Điền tên của bạn">
         <small class="form-text text-danger">Thông báo lỗi.</small>
       </div>
       <div class="form-group">
         <label>Email address</label>
         <input
+          v-model="form.email"
           type="email"
           class="form-control"
           aria-describedby="emailHelp"
@@ -20,7 +21,7 @@
       </div>
       <div class="form-group">
         <label>Password</label>
-        <input type="password" class="form-control" placeholder="Password">
+        <input v-model="form.password" type="password" class="form-control" placeholder="Password">
         <small class="form-text text-danger">Thông báo lỗi.</small>
       </div>
       <button type="submit" class="btn btn-primary">Đăng Ký</button>
@@ -31,3 +32,21 @@
     </p>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      form: {
+        name: "",
+        email: "",
+        password: ""
+      }
+    };
+  },
+
+  methods: {
+    async submit() {}
+  }
+};
+</script>

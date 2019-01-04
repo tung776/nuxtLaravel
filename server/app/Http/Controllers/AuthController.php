@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\User;
-use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserLoginRequest;
+use App\Http\Requests\UserRegisterRequest;
 use App\Http\Resources\User as UserResource;
+use App\User;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -17,50 +17,49 @@ class AuthController extends Controller
         $user = User::create([
             'email' => $request->email,
             'name' => $request->name,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
         ]);
 
-        if(!$token = auth()->attempt($request->only(['email', 'password'] ))){
+        if (!$token = auth()->attempt($request->only(['email', 'password']))) {
             return abort(401);
         }
 
         return (new UserResource($request->user()))->additional([
-            'meta'=>[
-                'token'=> $token,
-            ]
+            'meta' => [
+                'token' => $token,
+            ],
         ]);
     }
 
     public function login(UserLoginRequest $request)
     {
-        
+
         if (!$token = auth()->attempt($request->only(['email', 'password']))) {
             return response()->json([
                 'errors' => [
-                    'email'=>'vui lòng kiểm tra lại email hoặc mật khẩu'
-                ]
-                ], 422);
+                    'email' => 'vui lòng kiểm tra lại email hoặc mật khẩu',
+                ],
+            ], 422);
         }
         // dd('go login');
 
         return (new UserResource($request->user()))->additional([
             'meta' => [
-                'token' =>$token
-            ]
+                'token' => $token,
+            ],
         ]);
     }
 
     public function user(Request $request)
     {
-        if(!$user = auth()->user()) {
-            return response()->json([
-                'errors' => [
-                    'message' => 'Xin vui lòng đăng nhập lại'
-                ]
-            ]);
+        if ($request->user()) {
+            return new UserResource($request->user());
         }
-        dd($user);
-        return new UserResource($user);
+        return response()->json([
+            'errors' => [
+                'message' => 'Xin vui lòng đăng nhập lại',
+            ],
+        ]);
     }
 
     public function logout()
