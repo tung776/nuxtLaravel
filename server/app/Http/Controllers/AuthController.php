@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\User;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserLoginRequest;
@@ -34,12 +34,12 @@ class AuthController extends Controller
     public function login(UserLoginRequest $request)
     {
         
-        if (!$token = auth()->attempt($request->only(['enail', 'password']))) {
+        if (!$token = auth()->attempt($request->only(['email', 'password']))) {
             return response()->json([
                 'errors' => [
                     'email'=>'vui lòng kiểm tra lại email hoặc mật khẩu'
                 ]
-            ]);
+                ], 422);
         }
         // dd('go login');
 
@@ -48,5 +48,10 @@ class AuthController extends Controller
                 'token' =>$token
             ]
         ]);
+    }
+
+    public function user(Request $request)
+    {
+        return new UserResource(($request->user()));
     }
 }
