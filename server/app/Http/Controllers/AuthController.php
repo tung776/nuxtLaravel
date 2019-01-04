@@ -52,6 +52,18 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return new UserResource(($request->user()));
+        if(!$user = auth()->user()) {
+            return response()->json([
+                'errors' => [
+                    'message' => 'Xin vui lòng đăng nhập lại'
+                ]
+            ]);
+        }
+        return new UserResource($user);
+    }
+
+    public function logout()
+    {
+        return auth()->logout();
     }
 }
