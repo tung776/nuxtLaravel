@@ -22,11 +22,19 @@
           <nuxt-link to="/posts" class="nav-item nav-link my-2">Bài Viết</nuxt-link>
         </div>
       </div>
-      <ul class="navbar-nav ml-auto">
-        <nuxt-link to="/login" class="nav-item nav-link my-2">Đăng Nhập</nuxt-link>
-        <nuxt-link to="/register" class="nav-item nav-link my-2">Đăng Ký</nuxt-link>
-        {{authenticated}}
-      </ul>
+      <template v-if="!authenticated">
+        <ul class="navbar-nav ml-auto">
+          <nuxt-link to="/login" class="nav-item nav-link my-2">Đăng Nhập</nuxt-link>
+          <nuxt-link to="/register" class="nav-item nav-link my-2">Đăng Ký</nuxt-link>
+          {{authenticated}}
+        </ul>
+      </template>
+      <template v-if="authenticated">
+        <ul class="navbar-nav ml-auto">
+          <a class="nav-item nav-link my-2">{{ user.name}}</a>
+          <a @click.prevent="logout" class="nav-item nav-link my-2">Thoát</a>
+        </ul>
+      </template>
     </nav>
   </div>
 </template>
@@ -35,6 +43,11 @@
 import { mapGetters } from "vuex";
 
 export default {
+  methods: {
+    logout() {
+      this.$auth.logout();
+    }
+  }
   // computed: {
   //   ...mapGetters({
   //     authenticated: "auth/authenticated"
