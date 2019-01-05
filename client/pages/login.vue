@@ -12,7 +12,11 @@
           aria-describedby="emailHelp"
           placeholder="Enter email"
         >
-        <small class="form-text text-danger" v-if="errors.email">{{ errors.email[0] }}</small>
+        <div v-if="errors.email">
+          <div v-for="err in errors.email" :key="err.index">
+            <small class="form-text text-danger">{{ err }}</small>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label>Password</label>
@@ -45,13 +49,11 @@ export default {
 
   methods: {
     async submit() {
-      await this.$auth
-        .loginWith("local", {
-          data: this.form
-        })
-        .catch(err => {
-          console.log("errors: ", err);
-        });
+      await this.$auth.loginWith("local", {
+        data: this.form
+      });
+
+      this.$router.push("/");
     }
   }
 };
