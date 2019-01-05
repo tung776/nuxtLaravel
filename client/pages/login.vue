@@ -12,11 +12,7 @@
           aria-describedby="emailHelp"
           placeholder="Enter email"
         >
-        <div v-if="errors.email">
-          <div v-for="err in errors.email" :key="err.index">
-            <small class="form-text text-danger">{{ err }}</small>
-          </div>
-        </div>
+        <small class="form-text text-danger" v-if="errors.email">{{ errors.email }}</small>
       </div>
       <div class="form-group">
         <label>Password</label>
@@ -38,6 +34,7 @@
 </template>
 <script>
 export default {
+  middleware: ["guest"],
   data() {
     return {
       form: {
@@ -53,7 +50,9 @@ export default {
         data: this.form
       });
 
-      this.$router.push("/");
+      this.$router.push({
+        path: this.$route.query.redirect || "/dasboard"
+      });
     }
   }
 };
