@@ -45,11 +45,13 @@ export default {
 
   methods: {
     async submit() {
-      await this.$auth.loginWith("local", {
-        data: this.form
-      });
-
-      this.$router.push("/");
+      await this.$auth
+        .loginWith("local", {
+          data: this.form
+        })
+        .catch(err => {
+          console.log("errors: ", err);
+        });
     }
   }
 };
